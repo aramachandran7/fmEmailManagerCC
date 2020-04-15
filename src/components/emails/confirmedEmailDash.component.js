@@ -11,10 +11,10 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import CheckIcon from '@material-ui/icons/Check';
+// import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
-
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import createDonation from '../../store/actions/emailActions'
 import { firestoreConnect } from 'react-redux-firebase'
 
@@ -51,19 +51,19 @@ const styles = (theme) =>({
 
 
 
-class EmailDashboard extends Component {
+class ConfirmedEmailDashboard extends Component {
   constructor(props){
     super(props)
-    this.handleAccept = this.handleAccept.bind(this)
+    // this.handleAccept = this.handleAccept.bind(this)
     this.handleReject = this.handleReject.bind(this)
   }
-  handleAccept(e,email){
-    // let { emails }= this.props;
-    e.preventDefault()
-    console.log('handleacceptrecieved', email)
-    // call dispatch in order to make async. FIREBASE API CALL
-    this.props.createDonation(email) // uses email id
-  }
+//   handleAccept(e,email){
+//     // let { emails }= this.props;
+//     e.preventDefault()
+//     console.log('handleacceptrecieved', email)
+//     // call dispatch in order to make async. FIREBASE API CALL
+//     this.props.createDonation(email) // uses email id
+//   }
   handleReject(e,email){
     //FIREBASE API CALL 
     e.preventDefault()
@@ -78,23 +78,15 @@ class EmailDashboard extends Component {
         <Container maxWidth="lg" className={classes.container}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <Title>
-                Manage All Donation Request Emails Here {"   "}
-                <Button variant="contained" color="secondary">
-                  Refresh Emails 🔄
-                </Button>
-              </Title>
-              
+              <Title>View All Confirmed Donation Requests Here</Title>
               <Table size="small">
                 <TableHead>
                   <TableRow>
                     <TableCell>Sender</TableCell>
-                    <TableCell>Date</TableCell>
+                    <TableCell>Delivery Date</TableCell>
                     <TableCell>Type</TableCell>
-                    <TableCell>Subject</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell align="right">Accept</TableCell>
-                    <TableCell align="right">Reject</TableCell>
+                    <TableCell align="right">Quantity</TableCell>
+                    <TableCell align="right">Send Message</TableCell>
                     <TableCell align="right">Expand</TableCell>
                   </TableRow>
                 </TableHead>
@@ -104,16 +96,10 @@ class EmailDashboard extends Component {
                       <TableCell >{email.Sender}</TableCell>
                       <TableCell>{email.sendDate}</TableCell>
                       <TableCell>{email.PPEType}</TableCell>
-                      <TableCell>{email.subject}</TableCell>
-                      <TableCell>{email.PPEquantity}</TableCell>
-                      <TableCell align="right">
-                        <IconButton color="inherit" onClick={(e) => this.handleAccept(e, email)}>
-                            <CheckIcon />
-                        </IconButton>
-                      </TableCell>
+                      <TableCell align="right">{email.PPEquantity}</TableCell>
                       <TableCell align="right">
                         <IconButton color="inherit" onClick={(e) => this.handleReject(e, email)}>
-                            <ClearIcon />
+                            <MailOutlineIcon />
                         </IconButton>
                       </TableCell>
                       <TableCell align="right">
@@ -138,14 +124,14 @@ class EmailDashboard extends Component {
 }
 }
 
-EmailDashboard.propTypes = {
+ConfirmedEmailDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };  
 
 const mapStateToProps = (state) =>{
     console.log(state)
     return {
-      emails:state.firestore.ordered.Emails
+      emails:state.firestore.ordered.confirmedDonations
     }
 }
 
@@ -158,6 +144,6 @@ const mapDispatchToProps = (dispatch) => {
 const enhance = compose(
   withStyles(styles), 
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{collection:'Emails'}])
+  firestoreConnect([{collection:'confirmedDonations'}])
 )
-export default enhance(EmailDashboard);
+export default enhance(ConfirmedEmailDashboard);

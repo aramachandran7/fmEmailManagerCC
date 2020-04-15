@@ -5,12 +5,12 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-import { firestoreConnect } from 'react-redux-firebase'
-
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+
+import { firestoreConnect } from 'react-redux-firebase'
 
 function preventDefault(event) {
   event.preventDefault();
@@ -28,10 +28,10 @@ const styles = (theme) =>({
 class EmailComponent extends Component{
   render(){
     const {classes} = this.props;
-    const emails = this.props.emails;
-    let id = (this.props.match.params.id).toString()
-    // console.log('expectedid',id)
-    // console.log('emailsInStore', emails)
+    let emails = this.props.emails
+    const realID = this.props.match.params.id
+    const id = "1";
+    console.log(emails)
     let ePoint = emails.find(email => email.id === id);    
     return (
       <React.Fragment>
@@ -46,7 +46,7 @@ class EmailComponent extends Component{
               PPE Quantity: {ePoint.PPEquantity}
               </Typography>
               <Typography component="h1" variant="h6" align="center" color="textPrimary" gutterBottom>
-              Email ID#{ePoint.id}
+              Email ID  #{" "+ realID}
               </Typography>
               <Typography color="textSecondary" variant="subtitle1" align='center'>
                   From: {ePoint.sender} | as of {ePoint.sendDate}
@@ -70,16 +70,11 @@ EmailComponent.propTypes = {
   classes: PropTypes.object.isRequired,
 };  
 
-const mapStateToProps = (state, ownProps) =>{
-  // console.log(state)
-  // const id = ownProps.match.params.id
-  // const emails = state.firestore.data.Emails
-  // console.log('emails', emails)
-  
+const mapStateToProps = (state) =>{
   console.log(state)
-  return {
-    emails:state.firestore.ordered.Emails
-  }
+    return {
+      emails:state.email.emails,
+    }
 }
 
 const enhance = compose(

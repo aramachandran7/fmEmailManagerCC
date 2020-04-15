@@ -8,7 +8,7 @@ import EmailComponent from './components/emails/email.component'
 import EmailDashBoard from './components/emails/emailDash.component'
 import SignInComponent from './components/auth/SignIn.component';
 import SignUpComponent from './components/auth/SignUp.component';
-
+import ConfirmedEmailDashboard from './components/emails/confirmedEmailDash.component'
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
         <Route path='/emails/:id' component={EmailComponent} />
         <Route path='/signin' component={SignInComponent} />
         <Route path='/signup' component={SignUpComponent} />
+        <Route path='/emails_confirmed' component={ConfirmedEmailDashboard} />
       </Switch>
       <FooterComponent />
     </BrowserRouter>

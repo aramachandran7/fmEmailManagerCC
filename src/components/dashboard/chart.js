@@ -25,7 +25,7 @@ export default function Chart() {
 
   return (
     <React.Fragment>
-      <Title>Hourly N95 Usage Today, 4/5</Title>
+      <Title>Predicted PPE Stock over next 24 hours</Title>
       <ResponsiveContainer>
         <LineChart
           data={data}
@@ -43,7 +43,7 @@ export default function Chart() {
               position="left"
               style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
             >
-              Quantity distributed
+              Inventory Quantity
             </Label>
           </YAxis>
           <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />

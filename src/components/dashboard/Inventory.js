@@ -62,7 +62,7 @@ Inventory.propTypes = {
 };  
 
 const mapStateToProps = (state) =>{
-    console.log(state)
+    // console.log(state)
     return {
       confirmedDonations:state.firestore.ordered.confirmedDonations,
       potentialDonations:state.firestore.ordered.Emails

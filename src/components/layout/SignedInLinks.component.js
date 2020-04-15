@@ -38,6 +38,11 @@ export default function SignedInLinks() {
                     Manage Emails
                 </Link>
             </RLink>
+            <RLink to='/emails_confirmed/'>
+                <Link variant="button" color="textPrimary" href="/emails/confirmed" className={classes.link}>
+                    Confirmed Donations
+                </Link>
+            </RLink>
         </nav>
         {/* TODO: THIS NEEDS TO ROUTE OUT OF AUTH W/ API CALL  */}
         <RLink to='/'>
