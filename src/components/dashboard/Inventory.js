@@ -1,35 +1,69 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './title';
+
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+
 
 function preventDefault(event) {
   event.preventDefault();
 }
 
-const useStyles = makeStyles({
+const styles = (theme) =>({
   depositContext: {
     flex: 1,
   },
 });
 
-export default function Inventory() {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <Title>Total N95 Inventory</Title>
-      <Typography component="p" variant="h4">
-        3,024 Masks
-      </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
-        as of 4/5 10:00 AM EST
-      </Typography>
-      <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          View statistics
-        </Link>
-      </div>
-    </React.Fragment>
-  );
+class Inventory extends Component{
+  render(){
+    const {classes} = this.props;
+    let emails = this.props.emails
+    console.log('allProps', this.props)
+    console.log('emails', emails)
+    let d = Date(Date.now()).toString().slice(0,21)
+    var totalPPE = emails && emails.reduce((acc, email) => acc + email.PPEquantity, 0);
+    const inventory = 2500 
+    return (
+      <React.Fragment>
+        <Title>Total PPE Inventory</Title>
+        <Typography component="p" variant="h4">
+          {totalPPE} total PPE
+        </Typography>
+        <Typography color="textSecondary" className={classes.depositContext}>
+          as of {d}
+        </Typography>
+        <Typography className={classes.depositContext} variant="h6">
+          {inventory} PPE total Capacity
+        </Typography>
+        <div>
+          <Link color="primary" href="#" onClick={preventDefault}>
+            View statistics
+          </Link>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
+  
+
+Inventory.propTypes = {
+  classes: PropTypes.object.isRequired,
+};  
+
+const mapStateToProps = (state) =>{
+    return {
+      emails:state.email.emails
+    }
+}
+
+const enhance = compose(
+  withStyles(styles), 
+  connect(mapStateToProps)
+)
+export default enhance(Inventory);
+

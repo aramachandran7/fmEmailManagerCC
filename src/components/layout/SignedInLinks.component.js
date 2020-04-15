@@ -33,12 +33,13 @@ export default function SignedInLinks() {
                     Data Dashboard
                 </Link>
             </RLink>
-            <RLink to='/'>
-                <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+            <RLink to='/emails'>
+                <Link variant="button" color="textPrimary" href="/emails" className={classes.link}>
                     Manage Emails
                 </Link>
             </RLink>
         </nav>
+        {/* TODO: THIS NEEDS TO ROUTE OUT OF AUTH W/ API CALL  */}
         <RLink to='/'>
             <Button color="primary" variant="outlined" className={classes.link}>
                 <AccountBoxIcon />

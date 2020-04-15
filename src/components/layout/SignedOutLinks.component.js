@@ -27,7 +27,7 @@ export default function SignedInLinks() {
     const classes = useStyles()
     return (
         <React.Fragment>
-        <RLink to='/'>
+        <RLink to='/signin'>
             <Button color="primary" variant="outlined" className={classes.link}>
                 Login/Sign up 
                 <AccountBoxIcon />

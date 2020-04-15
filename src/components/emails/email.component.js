@@ -1,76 +1,80 @@
 //COMPONENT FOR VIEWING INDIVIDUAL EMAILS
 
-import React from 'react';
+import React, { Component } from 'react';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Title from './title';
 import Container from '@material-ui/core/Container';
+
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 function preventDefault(event) {
   event.preventDefault();
 }
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) =>({
   depositContext: {
     flex: 1,
   },
   heroContent: {
     padding: theme.spacing(8, 0, 6),
   },
-}));
+});
 
-export default function Inventory(props) {
-  const classes = useStyles();
-  const id = props.match.params.id
-  return (
-    <React.Fragment>
-
-        {/* Hero unit */}
-        <Container maxWidth="sm" component="main" className={classes.heroContent}>
-            <Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
-            Subject
-            </Typography>
-            <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-            PPE Type: _____ | PPE Quantity: _____
-            </Typography>
-            <Typography component="h1" variant="h6" align="center" color="textPrimary" gutterBottom>
-            Email {id}
-            </Typography>
-            <Typography color="textSecondary" variant="subtitle1" align='center'>
-                From: Johhny Lee | as of 4/5 10:00 AM EST
-            </Typography>
-            <Typography variant="body1" align="center" color="textSecondary" component="p">
-            BODY: Quickly build an effective pricing table for your potential customers with this layout.
-            It&apos;s built with default Material-UI components with little customization.
-            </Typography>
-            <Typography variant="body1" align="center" color="textSecondary" component="p">
-            <Link color="primary" href="#" onClick={preventDefault}>
-                Back to All
-            </Link>
-            </Typography>
-        </Container>
-        {/* <Container maxWidth="sm" component="main" className={classes.heroContent}> */}
-            {/* <Title>Email {id}</Title>
-            <Typography variant="h5" align="center" color="textSecondary" component="p">
-                Quickly build an effective pricing table for your potential customers with this layout.
-                It&apos;s built with default Material-UI components with little customization.
-            </Typography>
-            <Typography component="p" variant="h4">
-                Want to Donate N95 PPE
-            </Typography>
-            <Typography color="textSecondary" variant="subtitle1" className={classes.depositContext}>
-                From: Johhny Lee | as of 4/5 10:00 AM EST
-            </Typography>
-            <Typography component="p" variant="body1">
-                Lorem Ipsum 995 masks
-            </Typography>
-            <div>
-                <Link color="primary" href="#" onClick={preventDefault}>
-                Back to All
-                </Link>
-            </div> */}
-        {/* </Container> */}
-    </React.Fragment>
-  );
+class EmailComponent extends Component{
+  render(){
+    const {classes} = this.props;
+    let emails = this.props.emails
+    const id = this.props.match.params.id
+    let ePoint = emails[id-1]    
+    return (
+      <React.Fragment>
+          <Container maxWidth="sm" component="main" className={classes.heroContent}>
+              <Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
+              Subject: {ePoint.subject}
+              </Typography>
+              <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
+              PPE Type: {ePoint.PPEType}
+              </Typography>
+              <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
+              PPE Quantity: {ePoint.PPEquantity}
+              </Typography>
+              <Typography component="h1" variant="h6" align="center" color="textPrimary" gutterBottom>
+              Email #{ePoint.id}
+              </Typography>
+              <Typography color="textSecondary" variant="subtitle1" align='center'>
+                  From: {ePoint.sender} | as of {ePoint.sendDate}
+              </Typography>
+              <Typography variant="body1" align="center" component="p">
+              BODY: {ePoint.body}
+              </Typography>
+              <Typography variant="body1" align="center" color="textSecondary" component="p">
+              <Link color="primary" href="#" onClick={preventDefault}>
+                  Back to All
+              </Link>
+              </Typography>
+          </Container>
+      </React.Fragment>
+    );
+  }
 }
+
+
+EmailComponent.propTypes = {
+  classes: PropTypes.object.isRequired,
+};  
+
+const mapStateToProps = (state) =>{
+    return {
+      emails:state.email.emails
+    }
+}
+
+const enhance = compose(
+  withStyles(styles), 
+  connect(mapStateToProps)
+)
+export default enhance(EmailComponent);
+

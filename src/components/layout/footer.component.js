@@ -4,7 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+// import {Link} from 'react-router-dom'
 
+// fix footer link
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
   },
   main: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
   footer: {

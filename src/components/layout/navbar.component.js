@@ -10,6 +10,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import SignedInLinks from './SignedInLinks.component'
 import SignedOutLinks from './SignedOutLinks.component'
 
+//Implement SignedInLinks and SignedOutLinks switch
+
 const useStyles = makeStyles((theme) => ({
     appBar: {
         borderBottom: `1px solid ${theme.palette.divider}`,
@@ -34,9 +36,10 @@ export default function Navbar() {
             <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-                        Company name
+                        HoPE
                     </Typography>
                     <SignedInLinks />
+                    <SignedOutLinks />
                 </Toolbar>
             </AppBar>
         </React.Fragment>
