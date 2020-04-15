@@ -16,7 +16,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import createDonation from '../../store/actions/emailActions'
-// import createDonation from '../../store/actions/emailActions'
+import { firestoreConnect } from 'react-redux-firebase'
 
 
 import Title from './title';
@@ -82,7 +82,7 @@ class EmailDashboard extends Component {
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name</TableCell>
+                    <TableCell>Sender</TableCell>
                     <TableCell>Date</TableCell>
                     <TableCell>Type</TableCell>
                     <TableCell>Subject</TableCell>
@@ -95,7 +95,7 @@ class EmailDashboard extends Component {
                 <TableBody>
                   {emails && emails.map((email) => (
                     <TableRow key={email.id}>
-                      <TableCell >{email.sender}</TableCell>
+                      <TableCell >{email.Sender}</TableCell>
                       <TableCell>{email.sendDate}</TableCell>
                       <TableCell>{email.PPEType}</TableCell>
                       <TableCell>{email.subject}</TableCell>
@@ -137,8 +137,9 @@ EmailDashboard.propTypes = {
 };  
 
 const mapStateToProps = (state) =>{
+    console.log(state)
     return {
-      emails:state.email.emails
+      emails:state.firestore.ordered.Emails
     }
 }
 
@@ -150,6 +151,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const enhance = compose(
   withStyles(styles), 
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([{collection:'Emails'}])
 )
 export default enhance(EmailDashboard);

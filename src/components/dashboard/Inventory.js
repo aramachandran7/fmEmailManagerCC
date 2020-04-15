@@ -24,17 +24,21 @@ const styles = (theme) =>({
 class Inventory extends Component{
   render(){
     const {classes} = this.props;
-    let emails = this.props.emails
-    console.log('allProps', this.props)
-    console.log('emails', emails)
+    let { confirmedDonations, potentialDonations } = this.props
+    // console.log('allProps', this.props)
+    // console.log('emails', emails)
     let d = Date(Date.now()).toString().slice(0,21)
-    let totalPPE = emails && emails.reduce((acc, email) => acc + email.PPEquantity, 0);
+    let totalPotPPE = potentialDonations && potentialDonations.reduce((acc, email) => acc + email.PPEquantity, 0);
+    let totalPPENow = confirmedDonations && confirmedDonations.reduce((acc, email) => acc + email.PPEquantity, 0);
     const inventory = 2500 
     return (
       <React.Fragment>
-        <Title>Total PPE Inventory</Title>
-        <Typography component="p" variant="h4">
-          {totalPPE} total PPE
+        <Title>PPE Stats</Title>
+        <Typography component="p" variant="h5">
+          {totalPPENow} Confirmed PPE
+        </Typography>
+        <Typography  className={classes.depositContext}>
+          {totalPotPPE} Potential PPE
         </Typography>
         <Typography color="textSecondary" className={classes.depositContext}>
           as of {d}
@@ -60,7 +64,8 @@ Inventory.propTypes = {
 const mapStateToProps = (state) =>{
     console.log(state)
     return {
-      emails:state.firestore.ordered.confirmedDonations
+      confirmedDonations:state.firestore.ordered.confirmedDonations,
+      potentialDonations:state.firestore.ordered.Emails
     }
 }
 

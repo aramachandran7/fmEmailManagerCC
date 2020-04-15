@@ -5,6 +5,8 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
+import { firestoreConnect } from 'react-redux-firebase'
+
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import PropTypes from 'prop-types';
@@ -26,9 +28,11 @@ const styles = (theme) =>({
 class EmailComponent extends Component{
   render(){
     const {classes} = this.props;
-    let emails = this.props.emails
-    const id = this.props.match.params.id
-    let ePoint = emails[id-1]    
+    const emails = this.props.emails;
+    let id = (this.props.match.params.id).toString()
+    // console.log('expectedid',id)
+    // console.log('emailsInStore', emails)
+    let ePoint = emails.find(email => email.id === id);    
     return (
       <React.Fragment>
           <Container maxWidth="sm" component="main" className={classes.heroContent}>
@@ -42,7 +46,7 @@ class EmailComponent extends Component{
               PPE Quantity: {ePoint.PPEquantity}
               </Typography>
               <Typography component="h1" variant="h6" align="center" color="textPrimary" gutterBottom>
-              Email #{ePoint.id}
+              Email ID#{ePoint.id}
               </Typography>
               <Typography color="textSecondary" variant="subtitle1" align='center'>
                   From: {ePoint.sender} | as of {ePoint.sendDate}
@@ -66,15 +70,23 @@ EmailComponent.propTypes = {
   classes: PropTypes.object.isRequired,
 };  
 
-const mapStateToProps = (state) =>{
-    return {
-      emails:state.email.emails
-    }
+const mapStateToProps = (state, ownProps) =>{
+  // console.log(state)
+  // const id = ownProps.match.params.id
+  // const emails = state.firestore.data.Emails
+  // console.log('emails', emails)
+  
+  console.log(state)
+  return {
+    emails:state.firestore.ordered.Emails
+  }
 }
 
 const enhance = compose(
   withStyles(styles), 
-  connect(mapStateToProps)
+  connect(mapStateToProps),
+  firestoreConnect([{collection:'Emails'}])
+
 )
 export default enhance(EmailComponent);
 
