@@ -15,6 +15,10 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
+import createDonation from '../../store/actions/emailActions'
+// import createDonation from '../../store/actions/emailActions'
+
+
 import Title from './title';
 
 
@@ -24,16 +28,10 @@ import PropTypes from 'prop-types';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 
 
-function preventDefault(event) {
-  event.preventDefault();
-}
+// function preventDefault(event) {
+//   event.preventDefault();
+// }
 
-function handleClick(id){
-  //redirect to table with correct id
-  console.log('Expandclicked')
-  // let id = 1
-  window.location='/emails/'+ (id).toString()
-}
 
 const styles = (theme) =>({
   seeMore: {
@@ -57,18 +55,19 @@ class EmailDashboard extends Component {
   constructor(props){
     super(props)
     this.handleAccept = this.handleAccept.bind(this)
-    this.handelReject = this.handelReject.bind(this)
-    
+    this.handleReject = this.handleReject.bind(this)
   }
-  handleAccept(id){
-    //FIREBASE API CALL
-    console.log('accepted', id)
-    // let id = 1
+  handleAccept(e,email){
+    // let { emails }= this.props;
+    e.preventDefault()
+    console.log('handleacceptrecieved', email)
+    // call dispatch in order to make async. FIREBASE API CALL
+    this.props.createDonation(email) // uses email id
   }
-  handelReject(id){
+  handleReject(e,email){
     //FIREBASE API CALL 
-    console.log('rejected', id)
-    // let id = 1
+    e.preventDefault()
+    console.log('handlerejectrecieved',email)
   }
   render(){
     const { classes } = this.props;
@@ -102,12 +101,12 @@ class EmailDashboard extends Component {
                       <TableCell>{email.subject}</TableCell>
                       <TableCell>{email.PPEquantity}</TableCell>
                       <TableCell align="right">
-                        <IconButton color="inherit">
+                        <IconButton color="inherit" onClick={(e) => this.handleAccept(e, email)}>
                             <CheckIcon />
                         </IconButton>
                       </TableCell>
                       <TableCell align="right">
-                        <IconButton color="inherit">
+                        <IconButton color="inherit" onClick={(e) => this.handleReject(e, email)}>
                             <ClearIcon />
                         </IconButton>
                       </TableCell>
@@ -121,7 +120,7 @@ class EmailDashboard extends Component {
                 </TableBody>
               </Table>
               <div className={classes.seeMore}>
-                <Link color="primary" href="/" onClick={preventDefault}>
+                <Link color="primary" href="/" >
                   Back to Data Dashboard
                 </Link>
               </div>
@@ -143,8 +142,14 @@ const mapStateToProps = (state) =>{
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createDonation: (Donation) => dispatch(createDonation(Donation))
+  }
+}
+
 const enhance = compose(
   withStyles(styles), 
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )
 export default enhance(EmailDashboard);

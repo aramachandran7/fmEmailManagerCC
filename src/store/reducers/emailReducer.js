@@ -7,7 +7,16 @@ const initState = {
 }
 
 const emailReducer = (state = initState, action) => {
-    return state
+    switch(action.type){
+        case 'CREATE_DONATION':
+            console.log('created Donation', action.donation)
+            return state
+        case 'CREATE_DONATION_ERROR':
+            console.log('ERROR in creating donation', action.err)
+            return state
+        default:
+            return state
+    }
 }
 
 export default emailReducer
