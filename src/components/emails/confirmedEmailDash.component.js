@@ -15,8 +15,7 @@ import Badge from '@material-ui/core/Badge';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import createDonation from '../../store/actions/emailActions'
-import { firestoreConnect } from 'react-redux-firebase'
+import { createDonation } from '../../store/actions/emailActions'
 
 
 import Title from './title';
@@ -143,7 +142,6 @@ const mapDispatchToProps = (dispatch) => {
 
 const enhance = compose(
   withStyles(styles), 
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{collection:'confirmedDonations'}])
+  connect(mapStateToProps, mapDispatchToProps)
 )
 export default enhance(ConfirmedEmailDashboard);
