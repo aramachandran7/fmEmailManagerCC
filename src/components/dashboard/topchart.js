@@ -74,14 +74,13 @@ TopDonations.propTypes = {
 
 const mapStateToProps = (state) =>{
   // console.log(state)
-    return {
-      emails:state.firestore.ordered.Emails
-    }
+    // return {
+    //   emails:state.firestore.ordered.Emails
+    // }
 }
 
 const enhance = compose(
   withStyles(styles), 
-  connect(mapStateToProps),
-  firestoreConnect([{collection:'Emails'}])
+  connect(mapStateToProps)
 )
 export default enhance(TopDonations);
