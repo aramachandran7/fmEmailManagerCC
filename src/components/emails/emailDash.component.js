@@ -15,7 +15,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
-import { createDonation, getEmails } from "../../store/actions/emailActions"
+import { setStatus, getEmails } from "../../store/actions/emailActions"
 import { POTENTIAL } from "../../store/constants/constants.js"
 
 import Title from './title';
@@ -50,17 +50,14 @@ class EmailDashboard extends Component {
     }
 
     handleAccept(e,email){
-        // let { emails }= this.props;
         e.preventDefault()
-        console.log('handleacceptrecieved', email)
-        // call dispatch in order to make async. FIREBASE API CALL
-        this.props.createDonation(email) // uses email id
+        this.props.setStatus(email, CONFIRMED);
     }
 
     handleReject(e,email){
         //FIREBASE API CALL 
         e.preventDefault()
-        console.log('handlerejectrecieved',email)
+        this.props.setStatus(email, REJECTED);
     }
 
     componentDidMount() {
@@ -149,7 +146,7 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createDonation: Donation => dispatch(createDonation(Donation)),
+        setStatus: (email, status) => dispatch(setStatus(email, status)),
         getEmails: () => dispatch(getEmails(POTENTIAL))
     }
 }

@@ -1,4 +1,5 @@
 import db from '../../firebase.js'
+const COLLECTION = "Emails"
 
 export const createDonation = (donation) => {
     return ({dispatch, getState}) => {
@@ -14,11 +15,25 @@ export const createDonation = (donation) => {
     }
 }
 
+export const setStatus = (email, status) => {
+    return ((dispatch, getState) => {
+        db.collection(COLLECTION).doc(email.id)
+            .update({
+                status: status
+            })
+            .then(() => {
+                
+            }).catch(err => {
+                console.log("Error updating status: ", err);
+            });
+    });
+};
+
 export const getEmails = (status) => {
     return ((dispatch, getState) => {
-        db.collection("Emails")
+        db.collection(COLLECTION)
             .where("status", "==", status)
-            // .orderBy("createdAt", "desc")
+        // .orderBy("createdAt", "desc")
             .get()
             .then(snapshot => {
                 const items = snapshot.docs.map(doc => ({
@@ -38,9 +53,9 @@ export const getEmails = (status) => {
 
 export const getRecentEmails = () => {
     return ((dispatch, getState) => {
-        db.collection("Emails")
+        db.collection(COLLECTION)
             .where("status", "==", "potential")
-            // .orderBy("createdAt", "desc")
+        // .orderBy("createdAt", "desc")
             .limit(10)
             .get()
             .then(snapshot => {
