@@ -13,7 +13,7 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import getRecentEmails from "../../store/actions/getRecentEmails.js"
+import { getRecentEmails } from "../../store/actions/emailActions.js"
 
 
 const styles = (theme) =>({
