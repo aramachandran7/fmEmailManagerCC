@@ -14,7 +14,7 @@ export const createDonation = (donation) => {
     }
 }
 
-export const getEmails = () => {
+export const getPotentialEmails = () => {
     return ((dispatch, getState) => {
         db.collection("Emails")
             // .where("status", "==", "potential")

@@ -15,7 +15,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
-import { createDonation, getEmails } from "../../store/actions/emailActions"
+import { createDonation, getPotentialEmails } from "../../store/actions/emailActions"
 
 import Title from './title';
 
@@ -149,7 +149,7 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) => {
     return {
         createDonation: Donation => dispatch(createDonation(Donation)),
-        getEmails: () => dispatch(getEmails())
+        getEmails: () => dispatch(getPotentialEmails())
     }
 }
 
