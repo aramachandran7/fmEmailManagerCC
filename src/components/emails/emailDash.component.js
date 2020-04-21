@@ -16,7 +16,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import createDonation from '../../store/actions/emailActions'
-import { firestoreConnect } from 'react-redux-firebase'
 
 
 import Title from './title';
@@ -157,7 +156,6 @@ const mapDispatchToProps = (dispatch) => {
 
 const enhance = compose(
   withStyles(styles), 
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{collection:'Emails'}])
+  connect(mapStateToProps, mapDispatchToProps)
 )
 export default enhance(EmailDashboard);

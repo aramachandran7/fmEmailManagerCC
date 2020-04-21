@@ -13,7 +13,7 @@ var firebaseConfig = {
     appId: "1:356189827522:web:0fc9fcd0dba5ef0867e65b"
   };
 
-firebaseApp = firebase.initializeApp(firebaseConfig);
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 db.settings({timestampsInSnapshots:true});
 

@@ -12,10 +12,15 @@ const emailReducer = (state = initState, action) => {
     switch(action.type){
         case 'CREATE_DONATION':
             console.log('created Donation', action.donation)
-            return state
+            return state;
         case 'CREATE_DONATION_ERROR':
             console.log('ERROR in creating donation', action.err)
-            return state
+            return state;
+        case "GET_RECENT_EMAILS":
+            return {
+                ...state,
+                recentEmails: action.emails
+            };
         default:
             return state
     }
