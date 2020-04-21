@@ -21,10 +21,6 @@ const emailReducer = (state = initState, action) => {
                 potentialEmails: action.emails
             };
         case "GET_EMAILS":
-            console.log("START REDUCER")
-            console.log(action.emails)
-            console.log(action.status)
-            console.log("END REDUCER")
             return {
                 ...state,
                 [action.status]: action.emails

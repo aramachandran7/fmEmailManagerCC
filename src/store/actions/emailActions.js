@@ -21,8 +21,10 @@ export const getEmails = (status) => {
             // .orderBy("createdAt", "desc")
             .get()
             .then(snapshot => {
-                const items = snapshot.docs.map(doc => doc.data());
-                console.log(items)
+                const items = snapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id
+                }));
                 dispatch({
                     type: 'GET_EMAILS',
                     emails: items,
@@ -42,8 +44,10 @@ export const getRecentEmails = () => {
             .limit(10)
             .get()
             .then(snapshot => {
-                const items = snapshot.docs.map(doc => doc.data());
-                console.log(items)
+                const items = snapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id
+                }));
                 dispatch({type: 'GET_RECENT_EMAILS', emails:items});
             }).catch((err) => {
                 console.log("Error getting recent documents: ", err);
