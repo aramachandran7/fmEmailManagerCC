@@ -17,13 +17,29 @@ export const createDonation = (donation) => {
 export const getPotentialEmails = () => {
     return ((dispatch, getState) => {
         db.collection("Emails")
-            // .where("status", "==", "potential")
+            .where("status", "==", "potential")
             // .orderBy("createdAt", "desc")
             .get()
             .then(snapshot => {
                 const items = snapshot.docs.map(doc => doc.data());
                 console.log(items)
-                dispatch({type: 'GET_EMAILS', emails:items});
+                dispatch({type: 'GET_POTENTIAL_EMAILS', emails:items});
+            }).catch((err) => {
+                console.log("Error getting recent documents: ", err);
+            });
+    });
+};
+
+export const getConfirmedEmails = () => {
+    return ((dispatch, getState) => {
+        db.collection("Emails")
+            .where("status", "==", "confirmed")
+            // .orderBy("createdAt", "desc")
+            .get()
+            .then(snapshot => {
+                const items = snapshot.docs.map(doc => doc.data());
+                console.log(items)
+                dispatch({type: 'GET_CONFIRMED_EMAILS', emails:items});
             }).catch((err) => {
                 console.log("Error getting recent documents: ", err);
             });
@@ -33,7 +49,7 @@ export const getPotentialEmails = () => {
 export const getRecentEmails = () => {
     return ((dispatch, getState) => {
         db.collection("Emails")
-            // .where("status", "==", "potential")
+            .where("status", "==", "potential")
             // .orderBy("createdAt", "desc")
             .limit(10)
             .get()

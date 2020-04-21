@@ -142,7 +142,7 @@ EmailDashboard.propTypes = {
 const mapStateToProps = (state) =>{
     console.log(state)
     return {
-        emails:state.email.emails
+        emails:state.email.potentialEmails
     }
 }
 
