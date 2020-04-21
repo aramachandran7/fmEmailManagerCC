@@ -16,15 +16,18 @@ const emailReducer = (state = initState, action) => {
         case 'CREATE_DONATION_ERROR':
             console.log('ERROR in creating donation', action.err)
             return state;
-        case "GET_POTENTIAL_EMAILS":
             return {
                 ...state,
                 potentialEmails: action.emails
             };
-        case "GET_CONFIRMED_EMAILS":
+        case "GET_EMAILS":
+            console.log("START REDUCER")
+            console.log(action.emails)
+            console.log(action.status)
+            console.log("END REDUCER")
             return {
                 ...state,
-                confirmedEmails: action.emails
+                [action.status]: action.emails
             };
         case "GET_RECENT_EMAILS":
             return {

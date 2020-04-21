@@ -15,7 +15,8 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
-import { createDonation, getPotentialEmails } from "../../store/actions/emailActions"
+import { createDonation, getEmails } from "../../store/actions/emailActions"
+import { POTENTIAL } from "../../store/constants/constants.js"
 
 import Title from './title';
 
@@ -142,14 +143,14 @@ EmailDashboard.propTypes = {
 const mapStateToProps = (state) =>{
     console.log(state)
     return {
-        emails:state.email.potentialEmails
+        emails:state.email[POTENTIAL]
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         createDonation: Donation => dispatch(createDonation(Donation)),
-        getEmails: () => dispatch(getPotentialEmails())
+        getEmails: () => dispatch(getEmails(POTENTIAL))
     }
 }
 

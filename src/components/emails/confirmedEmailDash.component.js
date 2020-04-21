@@ -15,22 +15,15 @@ import Badge from '@material-ui/core/Badge';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import { createDonation, getConfirmedEmails } from '../../store/actions/emailActions'
-
+import { createDonation, getEmails } from '../../store/actions/emailActions'
+import { CONFIRMED } from "../../store/constants/constants.js"
 
 import Title from './title';
-
 
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import PropTypes from 'prop-types';
 import { withStyles, withTheme } from '@material-ui/core/styles';
-
-
-// function preventDefault(event) {
-//   event.preventDefault();
-// }
-
 
 const styles = (theme) =>({
     seeMore: {
@@ -47,8 +40,6 @@ const styles = (theme) =>({
         flexDirection: 'column',
     },
 });
-
-
 
 class ConfirmedEmailDashboard extends Component {
     constructor(props){
@@ -137,19 +128,22 @@ ConfirmedEmailDashboard.propTypes = {
 const mapStateToProps = (state) =>{
     console.log(state)
     return {
-        emails:state.email.confirmedEmails
+        emails:state.email[CONFIRMED]
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         createDonation: (Donation) => dispatch(createDonation(Donation)),
-        getEmails: () => dispatch(getConfirmedEmails())
+        getEmails: () => dispatch(getEmails(CONFIRMED))
     }
 }
 
 const enhance = compose(
     withStyles(styles), 
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )
 )
 export default enhance(ConfirmedEmailDashboard);
