@@ -2,9 +2,9 @@
 //fix initState to be different from Firebase state
 const initState = {
     emails: [
-    {id:'1', subject:'ppe masks', sendDate:'', sender:'Joe Biden', body: 'Hi! My name is Joe and I really wanted to donate some masks to your hosptial.', PPEquantity:40, PPEType:'n95masks'}, 
-    {id:'2', subject:'ppe masks', sendDate:'', sender:'KOBE', body: 'no maks for you', PPEquantity:200, PPEType:'gowns'}, 
-    {id:'3', subject:'ppe masks', sendDate:'', sender:'Maggie Jordan Biden', body: 'we have gowns pls take', PPEquantity:30, PPEType:'faceShields'}, 
+    // {id:'1', subject:'ppe masks', sendDate:'', sender:'Joe Biden', body: 'Hi! My name is Joe and I really wanted to donate some masks to your hosptial.', PPEquantity:40, PPEType:'n95masks'}, 
+    // {id:'2', subject:'ppe masks', sendDate:'', sender:'KOBE', body: 'no maks for you', PPEquantity:200, PPEType:'gowns'}, 
+    // {id:'3', subject:'ppe masks', sendDate:'', sender:'Maggie Jordan Biden', body: 'we have gowns pls take', PPEquantity:30, PPEType:'faceShields'}, 
     ]
 }
 
