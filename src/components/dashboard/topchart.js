@@ -15,7 +15,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { getRecentEmails } from "../../store/actions/emailActions.js"
 
-
 const styles = (theme) =>({
     seeMore: {
         marginTop: theme.spacing(3),

@@ -15,8 +15,9 @@ import Badge from '@material-ui/core/Badge';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import { createDonation, getEmails } from '../../store/actions/emailActions'
+import { getEmails } from '../../store/actions/emailActions'
 import { CONFIRMED } from "../../store/constants/constants.js"
+import { setEmailListener, removeEmailListener } from "../../store/actions/listenerActions"
 
 import Title from './title';
 
@@ -64,6 +65,12 @@ class ConfirmedEmailDashboard extends Component {
 
     componentDidMount() {
         this.props.getEmails();
+        this.props.setListener();
+    }
+
+
+    componentWillUnmount() {
+        this.props.removeListener();
     }
 
     render(){
@@ -134,8 +141,9 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createDonation: (Donation) => dispatch(createDonation(Donation)),
-        getEmails: () => dispatch(getEmails(CONFIRMED))
+        getEmails: () => dispatch(getEmails(CONFIRMED)),
+        setListener: () => dispatch(setEmailListener(CONFIRMED)),
+        removeListener: () => dispatch(removeEmailListener())
     }
 }
 

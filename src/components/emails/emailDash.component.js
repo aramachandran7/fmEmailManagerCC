@@ -16,7 +16,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import { setStatus, getEmails } from "../../store/actions/emailActions"
-import { POTENTIAL } from "../../store/constants/constants.js"
+import { setEmailListener, removeEmailListener } from "../../store/actions/listenerActions"
+import { POTENTIAL, CONFIRMED, REJECTED } from "../../store/constants/constants.js"
 
 import Title from './title';
 
@@ -62,6 +63,11 @@ class EmailDashboard extends Component {
 
     componentDidMount() {
         this.props.getEmails();
+        this.props.setListener();
+    }
+
+    componentWillUnmount() {
+        this.props.removeListener();
     }
 
     render(){
@@ -147,7 +153,9 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) => {
     return {
         setStatus: (email, status) => dispatch(setStatus(email, status)),
-        getEmails: () => dispatch(getEmails(POTENTIAL))
+        getEmails: () => dispatch(getEmails(POTENTIAL)),
+        setListener: () => dispatch(setEmailListener(POTENTIAL)),
+        removeListener: () => dispatch(removeEmailListener())
     }
 }
 
