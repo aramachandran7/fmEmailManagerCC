@@ -15,9 +15,9 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
-import createDonation from '../../store/actions/emailActions'
-import { firestoreConnect } from 'react-redux-firebase'
-
+import { setStatus, getEmails } from "../../store/actions/emailActions"
+import { setEmailListener, removeEmailListener } from "../../store/actions/listenerActions"
+import { POTENTIAL, CONFIRMED, REJECTED } from "../../store/constants/constants.js"
 
 import Title from './title';
 
@@ -27,137 +27,143 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 
-
-// function preventDefault(event) {
-//   event.preventDefault();
-// }
-
-
 const styles = (theme) =>({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
+    seeMore: {
+        marginTop: theme.spacing(3),
+    },
+    container: {
+        paddingTop: theme.spacing(4),
+        paddingBottom: theme.spacing(4),
+    },
+    paper: {
+        padding: theme.spacing(2),
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column',
+    },
 });
 
-
-
 class EmailDashboard extends Component {
-  constructor(props){
-    super(props)
-    this.handleAccept = this.handleAccept.bind(this)
-    this.handleReject = this.handleReject.bind(this)
-  }
-  handleAccept(e,email){
-    // let { emails }= this.props;
-    e.preventDefault()
-    console.log('handleacceptrecieved', email)
-    // call dispatch in order to make async. FIREBASE API CALL
-    this.props.createDonation(email) // uses email id
-  }
-  handleReject(e,email){
-    //FIREBASE API CALL 
-    e.preventDefault()
-    console.log('handlerejectrecieved',email)
-  }
-  render(){
-    const { classes } = this.props;
-    let emails = this.props.emails;
+    constructor(props){
+        super(props)
+        this.handleAccept = this.handleAccept.bind(this)
+        this.handleReject = this.handleReject.bind(this)
+    }
 
-    return (
-      <React.Fragment>
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
-              <Title>
-                Manage All Donation Request Emails Here {"   "}
-                <Button variant="contained" color="secondary">
-                  Refresh Emails 🔄
-                </Button>
-              </Title>
-              
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Sender</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Subject</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell align="right">Accept</TableCell>
-                    <TableCell align="right">Reject</TableCell>
-                    <TableCell align="right">Expand</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {emails && emails.map((email) => (
-                    <TableRow key={email.id}>
-                      <TableCell >{email.Sender}</TableCell>
-                      <TableCell>{email.sendDate}</TableCell>
-                      <TableCell>{email.PPEType}</TableCell>
-                      <TableCell>{email.subject}</TableCell>
-                      <TableCell>{email.PPEquantity}</TableCell>
-                      <TableCell align="right">
-                        <IconButton color="inherit" onClick={(e) => this.handleAccept(e, email)}>
-                            <CheckIcon />
-                        </IconButton>
-                      </TableCell>
-                      <TableCell align="right">
-                        <IconButton color="inherit" onClick={(e) => this.handleReject(e, email)}>
-                            <ClearIcon />
-                        </IconButton>
-                      </TableCell>
-                      <TableCell align="right">
-                        <IconButton color="inherit" onClick={() => { window.location='/emails/'+ (email.id).toString(); }}>
-                          <ZoomOutMapIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              <div className={classes.seeMore}>
-                <Link color="primary" href="/" >
-                  Back to Data Dashboard
-                </Link>
-              </div>
-            </Paper>
-          </Grid>
-        </Container>
-      </React.Fragment>
-    );
-}
+    handleAccept(e,email){
+        e.preventDefault()
+        this.props.setStatus(email, CONFIRMED);
+    }
+
+    handleReject(e,email){
+        //FIREBASE API CALL 
+        e.preventDefault()
+        this.props.setStatus(email, REJECTED);
+    }
+
+    componentDidMount() {
+        this.props.getEmails();
+        this.props.setListener();
+    }
+
+    componentWillUnmount() {
+        this.props.removeListener();
+    }
+
+    render(){
+        const { classes } = this.props;
+        let emails = this.props.emails;
+
+        return (
+            <React.Fragment>
+                <Container maxWidth="lg" className={classes.container}>
+                    <Grid item xs={12}>
+                        <Paper className={classes.paper}>
+                            <Title>
+                                Manage All Donation Request Emails Here {"   "}
+                                <Button variant="contained" color="secondary">
+                                    Refresh Emails 🔄
+                                </Button>
+                            </Title>
+
+                            <Table size="small">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Sender</TableCell>
+                                        <TableCell>Date</TableCell>
+                                        <TableCell>Type</TableCell>
+                                        <TableCell>Subject</TableCell>
+                                        <TableCell>Quantity</TableCell>
+                                        <TableCell align="right">Accept</TableCell>
+                                        <TableCell align="right">Reject</TableCell>
+                                        <TableCell align="right">Expand</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {emails && emails.map((email) => (
+                                        <TableRow key={email.id}>
+                                            <TableCell >{email.Sender}</TableCell>
+                                            <TableCell>{email.sendDate}</TableCell>
+                                            <TableCell>{email.PPEType}</TableCell>
+                                            <TableCell>{email.subject}</TableCell>
+                                            <TableCell>{email.PPEquantity}</TableCell>
+                                            <TableCell align="right">
+                                                <IconButton color="inherit" onClick={(e) => this.handleAccept(e, email)}>
+                                                    <CheckIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <IconButton color="inherit" onClick={(e) => this.handleReject(e, email)}>
+                                                    <ClearIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <IconButton color="inherit" onClick={() => { window.location='/emails/'+ (email.id).toString(); }}>
+                                                    <ZoomOutMapIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                            <div className={classes.seeMore}>
+                                <Link color="primary" href="/" >
+                                    Back to Data Dashboard
+                                </Link>
+                            </div>
+                        </Paper>
+                    </Grid>
+                </Container>
+            </React.Fragment>
+        );
+    }
 }
 
 EmailDashboard.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };  
 
 const mapStateToProps = (state) =>{
     console.log(state)
     return {
-      emails:state.firestore.ordered.Emails
+        emails:state.email[POTENTIAL]
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    createDonation: (Donation) => dispatch(createDonation(Donation))
-  }
+    return {
+        setStatus: (email, status) => dispatch(setStatus(email, status)),
+        getEmails: () => dispatch(getEmails(POTENTIAL)),
+        setListener: () => dispatch(setEmailListener(POTENTIAL)),
+        removeListener: () => dispatch(removeEmailListener())
+    }
 }
 
 const enhance = compose(
-  withStyles(styles), 
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{collection:'Emails'}])
+    withStyles(styles), 
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )
 )
 export default enhance(EmailDashboard);

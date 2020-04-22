@@ -8,8 +8,6 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { firestoreConnect } from 'react-redux-firebase'
-
 
 function preventDefault(event) {
   event.preventDefault();
@@ -28,8 +26,10 @@ class Inventory extends Component{
     // console.log('allProps', this.props)
     // console.log('emails', emails)
     let d = Date(Date.now()).toString().slice(0,21)
-    let totalPotPPE = potentialDonations && potentialDonations.reduce((acc, email) => acc + email.PPEquantity, 0);
-    let totalPPENow = confirmedDonations && confirmedDonations.reduce((acc, email) => acc + email.PPEquantity, 0);
+    // let totalPotPPE = potentialDonations && potentialDonations.reduce((acc, email) => acc + email.PPEquantity, 0);
+    // let totalPPENow = confirmedDonations && confirmedDonations.reduce((acc, email) => acc + email.PPEquantity, 0);
+    let totalPotPPE = 450;
+    let totalPPENow = 200;
     const inventory = 2500 
     return (
       <React.Fragment>
@@ -62,17 +62,15 @@ Inventory.propTypes = {
 };  
 
 const mapStateToProps = (state) =>{
-    // console.log(state)
-    return {
-      confirmedDonations:state.firestore.ordered.confirmedDonations,
-      potentialDonations:state.firestore.ordered.Emails
-    }
+    // return {
+    //   confirmedDonations:state.firestore.ordered.confirmedDonations,
+    //   potentialDonations:state.firestore.ordered.Emails
+    // }
 }
 
 const enhance = compose(
   withStyles(styles), 
-  connect(mapStateToProps), 
-  firestoreConnect([{collection:'confirmedDonations'}])
+  connect(mapStateToProps)
 )
 export default enhance(Inventory);
 

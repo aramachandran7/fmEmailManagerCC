@@ -20,7 +20,7 @@ import Paper from '@material-ui/core/Paper';
 // import { mainListItems, secondaryListItems } from './listItems';
 
 import Chart from './chart';
-import Inventory from './Inventory';
+import Inventory from './inventory';
 import TopChart from './topchart';
 
 
