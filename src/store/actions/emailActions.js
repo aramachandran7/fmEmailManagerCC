@@ -1,5 +1,5 @@
 import db from '../../firebase.js'
-const COLLECTION = "Emails"
+import { COLLECTION } from '../constants/constants.js'
 
 export const setStatus = (email, status) => {
     return ((dispatch, getState) => {

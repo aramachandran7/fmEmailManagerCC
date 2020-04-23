@@ -1,5 +1,5 @@
 import db from '../../firebase.js'
-const COLLECTION = "Emails";
+import { COLLECTION } from '../constants/constants.js'
 var unsubscribes = [];
 
 export const setEmailListener = (status) => {
