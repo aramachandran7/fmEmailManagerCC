@@ -83,7 +83,7 @@ class EmailDashboard extends Component {
                             <Title>
                                 Manage All Donation Request Emails Here {"   "}
                                 <Button variant="contained" color="secondary" onClick={() => this.props.parseEmails()}>
-                                    Refresh Emails 🔄
+                                    Parse New Emails 🔄
                                 </Button>
                             </Title>
 
