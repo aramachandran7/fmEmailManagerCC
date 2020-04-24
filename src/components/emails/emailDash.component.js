@@ -91,7 +91,7 @@ class EmailDashboard extends Component {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Sender</TableCell>
-                                        <TableCell>Date</TableCell>
+                                        <TableCell>Email</TableCell>
                                         <TableCell>Type</TableCell>
                                         <TableCell>Subject</TableCell>
                                         <TableCell>Quantity</TableCell>
@@ -102,12 +102,13 @@ class EmailDashboard extends Component {
                                 </TableHead>
                                 <TableBody>
                                     {emails && emails.map((email) => (
+                                        (typeof(email.Supplies) == "object" ? (
                                         <TableRow key={email.id}>
-                                            <TableCell >{email.Sender}</TableCell>
-                                            <TableCell>{email.sendDate}</TableCell>
-                                            <TableCell>{email.PPEType}</TableCell>
-                                            <TableCell>{email.subject}</TableCell>
-                                            <TableCell>{email.PPEquantity}</TableCell>
+                                            <TableCell >{email.Name}</TableCell>
+                                            <TableCell>{email.Email}</TableCell>
+                                            <TableCell>{Object.keys(email.Supplies)[0]}</TableCell>
+                                            <TableCell>{email.Subject}</TableCell>
+                                            <TableCell>{Object.values(email.Supplies)[0]}</TableCell>
                                             <TableCell align="right">
                                                 <IconButton color="inherit" onClick={(e) => this.handleAccept(e, email)}>
                                                     <CheckIcon />
@@ -124,6 +125,7 @@ class EmailDashboard extends Component {
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
+                                        ) : (null))
                                     ))}
                                 </TableBody>
                             </Table>
