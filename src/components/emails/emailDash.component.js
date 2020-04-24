@@ -17,7 +17,8 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import { setStatus, getEmails } from "../../store/actions/emailActions"
 import { setEmailListener, removeEmailListener } from "../../store/actions/listenerActions"
-import { POTENTIAL, CONFIRMED, REJECTED } from "../../store/constants/constants.js"
+import { parseEmailsCall } from "../../store/actions/parseActions"
+import { POTENTIAL, CONFIRMED, REJECTED } from "../../store/constants/constants"
 
 import Title from './title';
 
@@ -81,7 +82,7 @@ class EmailDashboard extends Component {
                         <Paper className={classes.paper}>
                             <Title>
                                 Manage All Donation Request Emails Here {"   "}
-                                <Button variant="contained" color="secondary">
+                                <Button variant="contained" color="secondary" onClick={() => this.props.parseEmails()}>
                                     Refresh Emails 🔄
                                 </Button>
                             </Title>
@@ -155,7 +156,8 @@ const mapDispatchToProps = (dispatch) => {
         setStatus: (email, status) => dispatch(setStatus(email, status)),
         getEmails: () => dispatch(getEmails(POTENTIAL)),
         setListener: () => dispatch(setEmailListener(POTENTIAL)),
-        removeListener: () => dispatch(removeEmailListener())
+        removeListener: () => dispatch(removeEmailListener()),
+        parseEmails: () => dispatch(parseEmailsCall())
     }
 }
 
