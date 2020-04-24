@@ -17,7 +17,8 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import { setStatus, getEmails } from "../../store/actions/emailActions"
 import { setEmailListener, removeEmailListener } from "../../store/actions/listenerActions"
-import { POTENTIAL, CONFIRMED, REJECTED } from "../../store/constants/constants.js"
+import { parseEmailsCall } from "../../store/actions/parseActions"
+import { POTENTIAL, CONFIRMED, REJECTED } from "../../store/constants/constants"
 
 import Title from './title';
 
@@ -81,8 +82,8 @@ class EmailDashboard extends Component {
                         <Paper className={classes.paper}>
                             <Title>
                                 Manage All Donation Request Emails Here {"   "}
-                                <Button variant="contained" color="secondary">
-                                    Refresh Emails 🔄
+                                <Button variant="contained" color="secondary" onClick={() => this.props.parseEmails()}>
+                                    Parse New Emails 🔄
                                 </Button>
                             </Title>
 
@@ -90,7 +91,7 @@ class EmailDashboard extends Component {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Sender</TableCell>
-                                        <TableCell>Date</TableCell>
+                                        <TableCell>Email</TableCell>
                                         <TableCell>Type</TableCell>
                                         <TableCell>Subject</TableCell>
                                         <TableCell>Quantity</TableCell>
@@ -101,12 +102,13 @@ class EmailDashboard extends Component {
                                 </TableHead>
                                 <TableBody>
                                     {emails && emails.map((email) => (
+                                        (typeof(email.Supplies) == "object" ? (
                                         <TableRow key={email.id}>
-                                            <TableCell >{email.Sender}</TableCell>
-                                            <TableCell>{email.sendDate}</TableCell>
-                                            <TableCell>{email.PPEType}</TableCell>
-                                            <TableCell>{email.subject}</TableCell>
-                                            <TableCell>{email.PPEquantity}</TableCell>
+                                            <TableCell >{email.Name}</TableCell>
+                                            <TableCell>{email.Email}</TableCell>
+                                            <TableCell>{Object.keys(email.Supplies)[0]}</TableCell>
+                                            <TableCell>{email.Subject}</TableCell>
+                                            <TableCell>{Object.values(email.Supplies)[0]}</TableCell>
                                             <TableCell align="right">
                                                 <IconButton color="inherit" onClick={(e) => this.handleAccept(e, email)}>
                                                     <CheckIcon />
@@ -123,6 +125,7 @@ class EmailDashboard extends Component {
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
+                                        ) : (null))
                                     ))}
                                 </TableBody>
                             </Table>
@@ -155,7 +158,8 @@ const mapDispatchToProps = (dispatch) => {
         setStatus: (email, status) => dispatch(setStatus(email, status)),
         getEmails: () => dispatch(getEmails(POTENTIAL)),
         setListener: () => dispatch(setEmailListener(POTENTIAL)),
-        removeListener: () => dispatch(removeEmailListener())
+        removeListener: () => dispatch(removeEmailListener()),
+        parseEmails: () => dispatch(parseEmailsCall())
     }
 }
 

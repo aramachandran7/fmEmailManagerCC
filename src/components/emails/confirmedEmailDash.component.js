@@ -97,17 +97,20 @@ class ConfirmedEmailDashboard extends Component {
                                 <TableBody>
                                     {emails && emails.map((email) => (
                                         <TableRow key={email.id}>
-                                            <TableCell >{email.Sender}</TableCell>
+                                            <TableCell >{email.Name}</TableCell>
                                             <TableCell>{email.sendDate}</TableCell>
-                                            <TableCell>{email.PPEType}</TableCell>
-                                            <TableCell align="right">{email.PPEquantity}</TableCell>
+                                            <TableCell>{Object.keys(email.Supplies)[0]}</TableCell>
+                                            <TableCell>{Object.values(email.Supplies)[0]}</TableCell>
                                             <TableCell align="right">
                                                 <IconButton color="inherit" onClick={(e) => this.handleReject(e, email)}>
                                                     <MailOutlineIcon />
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell align="right">
+                                                <IconButton color="inherit">
+                                                { /*
                                                 <IconButton color="inherit" onClick={() => { window.location='/emails/'+ (email.id).toString(); }}>
+                                                */ }
                                                     <ZoomOutMapIcon />
                                                 </IconButton>
                                             </TableCell>

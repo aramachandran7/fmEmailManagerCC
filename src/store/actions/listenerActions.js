@@ -1,10 +1,10 @@
 import db from '../../firebase.js'
-const COLLECTION = "Emails";
-var unsubscribe = null;
+import { COLLECTION } from '../constants/constants.js'
+var unsubscribes = [];
 
 export const setEmailListener = (status) => {
     return ((dispatch, getState) => {
-        unsubscribe = db.collection(COLLECTION)
+        const newUnsubscribe = db.collection(COLLECTION)
             .where("status", "==", status)
         // .orderBy("createdAt", "desc")
             .onSnapshot(snapshot => {
@@ -18,14 +18,15 @@ export const setEmailListener = (status) => {
                     status: status
                 });
             });
+        unsubscribes.push(newUnsubscribe);
     });
 };
 
 export const removeEmailListener = () => {
     return ((dispatch, getState) => {
-        if (!unsubscribe) {
-            unsubscribe();
-            unsubscribe = null;
+        if (unsubscribes.length != 0) {
+            unsubscribes[0]();
+            unsubscribes.shift();
         }
     });
 };
