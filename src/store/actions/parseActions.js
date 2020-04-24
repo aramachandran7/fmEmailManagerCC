@@ -2,7 +2,7 @@ import db from '../../firebase';
 import { COLLECTIONS } from '../constants/constants';
 import axios from 'axios';
 
-const PARSEURL = "https://us-central1-him-hack-274205.cloudfunctions.net/function-1";
+const PARSEURL = "https://us-central1-him-hack-274205.cloudfunctions.net/function--test";
 
 export const parseEmailsCall = () => {
     return ((dispatch, getState) => {
